@@ -15,7 +15,7 @@ export interface Timesheet {
     /** GUID of the user that has submitted this timesheet, could be the user that the timesheet is about or his submitter */
     submitted_by_id: string;
     /** GUID of the work area this timesheet is for, can be null, could be different from the work area the user is assigned to, MUST EXIST IN WORK_AREAS TABLE */
-    work_area: string;
+    work_area?: string;
     /** TIMESTAMP of when this timesheet was inserted into the database, added by db, default value: CURRENT_TIMESTAMP */
     added_on: Date;
 }

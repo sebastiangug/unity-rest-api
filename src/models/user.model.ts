@@ -18,11 +18,13 @@ export interface User {
     /** Tracks if users is able to login & submit his own timesheets, boolean/bit, cannot be null */
     self_submits: boolean;
     /** GUID of the microsoft profile, string, can be null, max 50 characters */
-    microsoft_id: string;
+    microsoft_id?: string;
     /** ID of the google profile, string, can be null, max 50 characters */
-    google_id: string;
+    google_id?: string;
     /** ID of the facebook profile, string, can be null, max 50 characters */
-    facebook_id: string;
+    facebook_id?: string;
+    /** ID of the linkedin profile, string, can be null, max 50 characters */
+    linkedin_id?: string;
     /** Email address of who adds the users, string, cannot be null, 50 characters */
     added_by: string;
     /** When the userS has been created, datetime, added by database as CURRENT_TIMESTAMP, cannot be null */
@@ -33,4 +35,6 @@ export interface User {
     work_area: string;
     /** INT ID of what access level the userS has, cannot be null, 1 = ORG_ADMIN, 2 = DATA_ACCESS, 3 = STANDARD, MUST EXIST IN ACCESS_LEVELS TABLE */
     access_level: number;
+    /** VARCHAR(MAX) BASE64 STRING, PLEASE NEVER EVER INCLUDE THIS IN THE TOKEN, ONLY GET IT SEPARATELY */
+    photo?: string;
 }

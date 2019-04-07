@@ -15,7 +15,7 @@ export interface Role {
     /** number/decimal(19,4), cannot be null */
     overtime_rate: number;
     /** number/decimal(19,4), can be null */
-    secondary_overtime_rate: number;
+    secondary_overtime_rate?: number;
     /** INT, id, must exist on table CHARGE_FREQUENCIES, cannot be null, possible values: 1 - YEARLY, 2 - MONTHLY, 3 - WEEKLY, 4 - DAILY, 5 - HOURLY */
     rate_frequency: number;
     /**string, email of the user that created this role, cannot be null, max 50 characters */

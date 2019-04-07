@@ -26,6 +26,8 @@ export const USERS = {
     google_id: 'USERS.google_id',
     /** ID of the facebook profile, string, can be null, max 50 characters */
     facebook_id: 'USERS.facebook_id',
+    /** ID of the linkedin profile, string, can be null, max 50 characters */
+    linkedin_id: 'USERS.linkedin_id',
     /** Email address of who adds the users, string, cannot be null, 50 characters */
     added_by: 'USERS.added_by',
     /** When the userS has been created, datetime, added by database as CURRENT_TIMESTAMP, cannot be null */
@@ -35,7 +37,9 @@ export const USERS = {
     /** GUID of work area the userS is assigned to, unique within the organisation, can be null, work areas are created by org admin at organisation level, MUST EXIST IN WORK_AREAS TABLE */
     work_area: 'USERS.work_area',
     /** INT ID of what access level the userS has, cannot be null, 1 = ORG_ADMIN, 2 = DATA_ACCESS, 3 = STANDARD, MUST EXIST IN ACCESS_LEVELS TABLE */
-    access_level: 'USERS.access_level'
+    access_level: 'USERS.access_level',
+    /** BASE64 VARCHAR MAX PHOTO, PLEASE NEVER CALL THIS OR USE THIS IN THE TOKEN, EVER!!! */
+    photo: 'USERS.photo'
 };
 
 /** CHARGE_FREQUENCIES TABLE FROM DATABASE */
@@ -196,4 +200,15 @@ export const TIMESHEET_STATUS = {
     id: 'TIMESHEET_STATUS.id',
     /** NAME OF THE TIMESHEET STATUS, string, max 10 characters, cannot be null, possible values:  1-PENDING, 2-APPROVED, 3-COMPLETED, 4-DRAFT */
     name: 'TIMESHEET_STATUS.name'
+};
+
+export const TOKENS = {
+    /** JUST THE TABLE NAME */
+    table: 'TOKENS',
+    /** GUID OF THE USER THE TOKEN BELONGS TO, cannot be null, must exist in USERS table */
+    user_id: 'TOKENS.user_id',
+    /** VARCHAR OF THE TOKEN ITSELF, can be null */
+    token: 'TOKENS.token',
+    /** SELF_UPDATING TIMESTAMP, set to CURRENT_TIMESTAMP on every update */
+    updated_on: 'TOKENS.updated_on'
 };
