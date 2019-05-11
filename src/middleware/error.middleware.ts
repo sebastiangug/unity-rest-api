@@ -14,26 +14,28 @@ const errorMiddleware = (
     next: NextFunction
 ) => {
     switch (error.name) {
-        case 'database':
-            return res.status(500).send('Unknown database error.');
+        // JOI Input validation errors will come here
         case 'invalidInput':
             return res.status(400).send(error.details[0].message);
+
+        // Permissions middleware will come here.
         case 'permissions':
             return res
                 .status(403)
-                .send('You do not have permission to do this');
+                .send(error.message || 'Insuficient permissions');
+
+        // Requesting to do stuff on resources that no longer exist/we can't find will come here
         case 'not-found':
-            return res.status(404).send('Could not find resource');
+            return res
+                .status(404)
+                .send(error.message || 'Could not find resource');
+
+        // If we're trying to create a resource that already exists we come here.
         case 'duplicate':
             return res.status(400).send(error.message);
-        case 'no-matches':
-            return res
-                .status(400)
-                .send('Could not find user within your organisation');
-        case 'not-signed-up':
-            return res.status(401).send(error.message);
+
         default:
-            res.status(500).send('Unknown Internal Server Error');
+            res.status(500).send(error.message || 'Unknown Error');
     }
 };
 

@@ -1,7 +1,7 @@
 import Knex from 'knex';
 
 export const knex = Knex({
-    client: 'mssql',
+    client: 'mysql',
     connection: {
         host: process.env.DBHOST,
         user: process.env.DBUSER,

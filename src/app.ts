@@ -1,11 +1,11 @@
 import express from 'express';
-import compression from 'compression';
 import bodyParser from 'body-parser';
 import logger from './util/logger';
 import passport from 'passport';
 import dotenv from 'dotenv';
 import passportjwt from 'passport-jwt';
-import helmet from 'helmet';
+import cors from 'cors';
+dotenv.config({ path: '.env' });
 
 // IMPORTED MIDDLEWARE
 import errorMiddleware from './middleware/error.middleware';
@@ -13,14 +13,16 @@ import errorMiddleware from './middleware/error.middleware';
 // IMPORTED CONTROLLERS
 import authController from './controllers/auth.controller';
 import refreshController from './controllers/refresh.controller';
+import playgroundController from './controllers/playground.controller';
 
 // PASSPORT CONFIGS
+// ACCESS TOKEN OPTS
 const opts1: passportjwt.StrategyOptions = {
     secretOrKey: process.env.jwtKey,
     jwtFromRequest: passportjwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
     algorithms: ['HS256']
 };
-
+// REFRESH TOKEN OPTS
 const opts2: passportjwt.StrategyOptions = {
     secretOrKey: process.env.jwtRefresh,
     jwtFromRequest: passportjwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -28,13 +30,13 @@ const opts2: passportjwt.StrategyOptions = {
 };
 
 // CONFIGS
-dotenv.config({ path: '.env' });
+
 const app = express();
 
 // STARTING + CONFIGURING THE APP
 app.set('port', process.env.PORT || 8080);
-app.use(express.json);
-app.use(helmet());
+app.use(cors({ origin: [process.env.CORS_ORIGIN1, process.env.CORS_ORIGIN2] }));
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
@@ -50,6 +52,8 @@ passport.use(
         }
     )
 );
+
+// REFRESH TOKEN STRATEGY
 passport.use(
     'jwt-2',
     new passportjwt.Strategy(
@@ -71,6 +75,7 @@ app.get(
 );
 
 app.get('/auth', authController);
+app.use('/playground', playgroundController);
 app.use(errorMiddleware);
 
 export default app;
